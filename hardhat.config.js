@@ -1,4 +1,4 @@
-require("@nomicfoundation/hardhat-toolbox");
+require("@nomiclabs/hardhat-ethers");
 require("dotenv").config();
 
 /** @type import('hardhat/config').HardhatUserConfig */
@@ -9,11 +9,11 @@ module.exports = {
     localhost: {
       url: "http://127.0.0.1:8545"
     },
-    // Polygon Mumbai 테스트넷
-    mumbai: {
-      url: "https://rpc-mumbai.maticvigil.com",
-      chainId: 80001,
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
+    // Ethereum Sepolia 테스트넷
+    sepolia: {
+      url: "https://rpc.sepolia.org",
+      chainId: 11155111,
+      accounts: process.env.PRIVATE_KEY && process.env.PRIVATE_KEY.length === 66 ? [process.env.PRIVATE_KEY] : [],
     }
   }
 };
