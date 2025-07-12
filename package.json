@@ -1,0 +1,29 @@
+{
+  "name": "we-ticket_blockchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WE-Ticket/WE-Ticket_Blockchain.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/WE-Ticket/WE-Ticket_Blockchain/issues"
+  },
+  "homepage": "https://github.com/WE-Ticket/WE-Ticket_Blockchain#readme",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^6.0.0",
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@openzeppelin/contracts": "^5.3.0",
+    "dotenv": "^17.2.0",
+    "ethers": "^5.8.0",
+    "hardhat": "^2.25.0"
+  }
+}
