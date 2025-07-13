@@ -21,6 +21,8 @@ async function main() {
   console.log("공연: ATEEZ 콘서트");
   console.log("좌석: A-15");
   console.log("DID: did:omn:hyegyo123");
+    
+  const authTime = Math.floor(Date.now() / 1000) - 3600; // 1시간 전에 인증했다고 가정
   
   const tx = await contract.mintTicket(
     "did:omn:hyegyo123",    // DID
@@ -30,7 +32,8 @@ async function main() {
     50000,                  // price
     1724832000,             // datetime
     2,                      // authLevel
-    "publickey_hyegyo123"   // publicKey
+    "publickey_hyegyo123",  // publicKey
+    authTime
   );
   
   console.log("블록체인에 기록 중...");
