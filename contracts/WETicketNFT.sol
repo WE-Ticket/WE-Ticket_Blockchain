@@ -39,7 +39,7 @@ contract WETicketNFT is ERC721URIStorage, Ownable {
         bool isTransferable;    
         bool isUsed;           
         string currentOwnerDID; 
-        uint8 authLevel;       // 발급 당시의 인증 레벨 (권한 변경에 따라, 얘도 업데이트할지는 잘 모르겠음)
+        uint8 authLevel;       // 발급 당시의 인증 레벨 (권한 변경에 따라 얘도 업데이트할지는 잘 모르겠음)
     }
     
     mapping(string => UserInfo) public users;                           // DID -> 유저정보
@@ -61,8 +61,56 @@ contract WETicketNFT is ERC721URIStorage, Ownable {
     }
     
     // ============ 티켓 발행 시스템 ============
-    
-    // TODO: [혜교] 티켓 발행 관련 함수들 구현
+    // [혜교] 티켓 발행 관련 함수들 구현
+    function mintTicket(
+        string memory did,
+        uint256 concertId,
+        uint256 sessionId,
+        string memory seatNumber,
+        uint256 price,
+        uint256 datetime,
+        uint8 authLevel,
+        string memory publicKey
+    ) external onlyOwner returns (uint256) {
+        // 1인 1티켓 체크
+        require(!didToSessionTicket[did][sessionId], "Already has ticket for this session");
+        
+        // 토큰 ID 생성
+        uint256 tokenId = _tokenIdCounter;
+        _tokenIdCounter++;
+        
+        // NFT 발행
+        //개인 지갑이 아니라 백엔드 주소(배포 후 컨트랙트 주소)로 발행
+        _mint(owner(), tokenId);
+        
+        // 티켓 정보 저장
+        tickets[tokenId] = TicketInfo({
+            concertId: concertId,
+            sessionId: sessionId,
+            seatNumber: seatNumber,
+            price: price,
+            datetime: datetime,
+            issueTimestamp: block.timestamp,
+            isTransferable: true,
+            isUsed: false,
+            currentOwnerDID: did,
+            authLevel: authLevel
+        });
+        
+        // 유저 정보 저장/업데이트
+        users[did] = UserInfo({
+            did: did,
+            authLevel: authLevel,
+            publicKey: publicKey,
+            authTimestamp: block.timestamp
+        });
+        
+        // 매핑 업데이트
+        didToTokens[did].push(tokenId);
+        didToSessionTicket[did][sessionId] = true;
+        
+        return tokenId;
+    }
     
     
     // ============ 양도 시스템 ============
