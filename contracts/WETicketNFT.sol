@@ -70,7 +70,7 @@ contract WETicketNFT is ERC721URIStorage, Ownable {
         uint256 price,
         uint256 datetime,
         uint8 authLevel,
-        string memory publicKey
+        string memory publicKey,
         uint256 authTimestamp 
     ) external onlyOwner returns (uint256) {
         // 1인 1티켓 체크
