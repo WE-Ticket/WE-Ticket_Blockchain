@@ -37,9 +37,26 @@ async function main() {
     
     // DID별 보유 티켓 목록 조회
     console.log("\nDID별 보유 티켓:");
-    const userTickets = await contract.didToTokens("did:omn:hyegyo123");
-    console.log("보유 티켓 개수:", userTickets.length);
-    console.log("토큰 IDs:", userTickets.map(id => id.toString()));
+    try {
+      // 첫 번째 토큰부터 확인
+      const firstToken = await contract.didToTokens("did:omn:hyegyo123", 0);
+      console.log("첫 번째 토큰 ID:", firstToken.toString());
+      
+      // 더 많은 토큰이 있는지 확인
+      let tokenCount = 1;
+      try {
+        const secondToken = await contract.didToTokens("did:omn:hyegyo123", 1);
+        console.log("두 번째 토큰 ID:", secondToken.toString());
+        tokenCount = 2;
+      } catch {
+        console.log("토큰은 1개만 있습니다.");
+      }
+      
+      console.log("총 보유 티켓 개수:", tokenCount);
+      
+    } catch (error) {
+      console.log("보유한 티켓이 없거나 조회 실패");
+    }
     
     // 1인 1티켓 체크 확인
     console.log("\n1인 1티켓 체크:");
