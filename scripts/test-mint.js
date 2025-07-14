@@ -35,6 +35,10 @@ async function main() {
     "publickey_hyegyo123",  // publicKey
     authTime
   );
+  const ownerAddress = await contract.owner();
+  console.log("컨트랙트 소유자 주소:", ownerAddress);
+  console.log("트랜잭션 보내는 주소:", deployer.address);
+
   
   console.log("블록체인에 기록 중...");
   const receipt = await tx.wait();

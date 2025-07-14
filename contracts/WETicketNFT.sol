@@ -117,6 +117,55 @@ contract WETicketNFT is ERC721URIStorage, Ownable {
     // ============ 양도 시스템 ============
     
     // TODO: [지은] 양도 함수들 구현 예정
+    event TicketTransferred(
+    uint256 indexed tokenId,
+    string indexed fromDID,
+    string indexed toDID,
+    address toAddress,
+    uint256 timestamp
+    );
+    
+    function _removeTokenFromOwner(string memory did, uint256 tokenId) internal {
+    uint256[] storage tokens = didToTokens[did];
+    for (uint256 i = 0; i < tokens.length; i++) {
+        if (tokens[i] == tokenId) {
+            tokens[i] = tokens[tokens.length - 1];
+            tokens.pop();
+            break;
+            }
+        }
+    }
+
+
+    function transferTicket(
+        uint256 tokenId,
+        string memory fromDID,
+        string memory toDID,
+        address toAddress
+    ) external onlyOwner {
+        TicketInfo storage ticket = tickets[tokenId];
+
+        require(ticket.isTransferable, "Transfer not allowed");
+        require(!ticket.isUsed, "Ticket already used");
+
+        // 현재 소유자 주소 확인
+        address currentOwner = ownerOf(tokenId);
+
+        // NFT 소유권 이전
+        _transfer(currentOwner, toAddress, tokenId);
+
+        // TicketInfo 업데이트
+        ticket.currentOwnerDID = toDID;
+
+        // 매핑 업데이트
+        _removeTokenFromOwner(fromDID, tokenId);
+        didToTokens[toDID].push(tokenId);
+        didToSessionTicket[fromDID][ticket.sessionId] = false;
+        didToSessionTicket[toDID][ticket.sessionId] = true;
+
+        // 이벤트 발생 - 이전 소유자, 신규 소유자, 토큰ID, 새 소유자 지갑주소, 타임스탬프 기록
+        emit TicketTransferred(tokenId, fromDID, toDID, toAddress, block.timestamp);
+    }
     
     
     // ============ 입장 시스템 ============
