@@ -72,7 +72,7 @@ contract WETicketNFT is ERC721URIStorage, Ownable {
         uint8 authLevel,
         string memory publicKey,
         uint256 authTimestamp 
-    ) external onlyOwner returns (uint256) {
+    ) external returns (uint256) {
         // 1인 1티켓 체크
         require(!didToSessionTicket[did][sessionId], "Already has ticket for this session");
         
@@ -142,7 +142,7 @@ contract WETicketNFT is ERC721URIStorage, Ownable {
         string memory fromDID,
         string memory toDID,
         address toAddress
-    ) external onlyOwner {
+    ) external {
         TicketInfo storage ticket = tickets[tokenId];
 
         require(ticket.isTransferable, "Transfer not allowed");
