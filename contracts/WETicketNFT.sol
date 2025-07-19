@@ -24,7 +24,7 @@ contract WETicketNFT is ERC721URIStorage, Ownable {
     //FIXME 변수명 수정 필요하다면 수정 가능! (백엔드/DB와 변수명 맞추기 등)
      struct UserInfo {
         string did;             // 단순 본인 인증일 경우, 임시 DID 발급 (이라고, [혜교]가 설계했으나, 기술적 검증 후 백엔드의 관리에 따름)
-        uint8 authLevel;        // 인증 레벨 (본인인증, 모바일 신분증 인증, 추가 VC 인증)
+        string authLevel;        // 인증 레벨 (본인인증, 모바일 신분증 인증, 추가 VC 인증)
         string publicKey;       // DID 관련 공개키
         uint256 authTimestamp;  // 인증 시점 (NFT 발급 이후에 다시 인증을 업그레이드 하면, 권한이 변경 되므로)
     }
@@ -39,7 +39,7 @@ contract WETicketNFT is ERC721URIStorage, Ownable {
         bool isTransferable;    
         bool isUsed;           
         string currentOwnerDID; 
-        uint8 authLevel;       // 발급 당시의 인증 레벨 (권한 변경에 따라 얘도 업데이트할지는 잘 모르겠음)
+        string authLevel;       // 발급 당시의 인증 레벨 (권한 변경에 따라 얘도 업데이트할지는 잘 모르겠음)
     }
     
     mapping(string => UserInfo) public users;                           // DID -> 유저정보
@@ -60,6 +60,10 @@ contract WETicketNFT is ERC721URIStorage, Ownable {
         // 기본 설정만
     }
     
+    // ============ 이벤트 ============
+    // 백엔드에 전송하기 위해 필요한 event - [지은] 추가
+    event TicketMinted(address indexed to, uint256 indexed tokenId, string did);
+
     // ============ 티켓 발행 시스템 ============
     // [혜교] 티켓 발행 관련 함수들 구현
     function mintTicket(
@@ -69,7 +73,7 @@ contract WETicketNFT is ERC721URIStorage, Ownable {
         string memory seatNumber,
         uint256 price,
         uint256 datetime,
-        uint8 authLevel,
+        string memory authLevel,
         string memory publicKey,
         uint256 authTimestamp 
     ) external returns (uint256) {
@@ -109,6 +113,9 @@ contract WETicketNFT is ERC721URIStorage, Ownable {
         // 매핑 업데이트
         didToTokens[did].push(tokenId);
         didToSessionTicket[did][sessionId] = true;
+
+        // 이벤트 발생 - [지은] 추가
+        emit TicketMinted(owner(), tokenId, did);
         
         return tokenId;
     }
