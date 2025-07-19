@@ -60,6 +60,10 @@ contract WETicketNFT is ERC721URIStorage, Ownable {
         // 기본 설정만
     }
     
+    // ============ 이벤트 ============
+    // 백엔드에 전송하기 위해 필요한 event - [지은] 추가
+    event TicketMinted(address indexed to, uint256 indexed tokenId, string did);
+
     // ============ 티켓 발행 시스템 ============
     // [혜교] 티켓 발행 관련 함수들 구현
     function mintTicket(
@@ -109,6 +113,9 @@ contract WETicketNFT is ERC721URIStorage, Ownable {
         // 매핑 업데이트
         didToTokens[did].push(tokenId);
         didToSessionTicket[did][sessionId] = true;
+
+        // 이벤트 발생 - [지은] 추가
+        emit TicketMinted(owner(), tokenId, did);
         
         return tokenId;
     }
