@@ -179,7 +179,7 @@ contract WETicketNFT is ERC721URIStorage, Ownable {
     
     // TODO: [나중에] 입장 검증 함수들 구현 예정
     function getDID(uint256 tokenId) public view returns (string memory did) {
-        require(_exists(tokenId), "Token does not exist");
+        require(_ownerOf(tokenId) != address(0), "Token does not exist");
         
         return tickets[tokenId].currentOwnerDID;
     }
