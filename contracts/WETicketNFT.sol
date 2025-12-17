@@ -6,13 +6,10 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 /**
  * @title WE-Ticket NFT Contract
- * @dev 환경 구축용 기본 뼈대 컨트랙트
  */
 contract WETicketNFT is ERC721URIStorage, Ownable {
     
-    // ============ 상태 변수 (나중에 필요에 따라 추가) ============
-    
-    // TODO: [각자] 필요한 변수들 추가
+    // ============ 상태 변수 ============
 
     struct TicketInfo {
         uint256 concertId;    
@@ -32,10 +29,7 @@ contract WETicketNFT is ERC721URIStorage, Ownable {
 
 
     
-    // ============ 이벤트 (나중에 필요에 따라 추가) ============
-    
-    // TODO: [각자] 필요한 이벤트들 추가
-    
+    // ============ 이벤트 ============
     
     // ============ 생성자 ============
     constructor() ERC721("WE-Ticket", "WET") Ownable(msg.sender) {
@@ -43,11 +37,11 @@ contract WETicketNFT is ERC721URIStorage, Ownable {
     }
     
     // ============ 이벤트 ============
-    // 백엔드에 전송하기 위해 필요한 event - [지은] 추가
+    // 백엔드에 전송하기 위해 필요한 event
     event TicketMinted(address indexed to, uint256 indexed tokenId);
 
     // ============ 티켓 발행 시스템 ============
-    // [혜교] 티켓 발행 관련 함수들 구현
+    // 티켓 발행 관련 함수들 구현
     function mintTicket(
         uint256 concertId,
         uint256 sessionId,
@@ -82,20 +76,9 @@ contract WETicketNFT is ERC721URIStorage, Ownable {
         });
         
 
-        // 이벤트 발생 - [지은] 추가
+        // 이벤트 발생
         emit TicketMinted(owner(), tokenId);
         return tokenId;
     }
-    
-    
-    // ============ 양도 시스템 ============
-
-    
-    // ============ 입장 시스템 ============
-    
-    
-    // ============ 유틸리티 함수 ============
-    
-    // TODO: [각자] 조회 및 기타 함수들 구현 예정
     
 }
