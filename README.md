@@ -46,7 +46,7 @@
 
 ---
 
-## How to Install
+## 🔧 How to Install
 
 ### 사전 요구사항
 
@@ -107,7 +107,7 @@
 
 ---
 
-## How to Build
+## 🐳 How to Build
 
 ### 스마트 컨트랙트 컴파일
 
@@ -172,7 +172,7 @@ npx hardhat compile
 
 ---
 
-## How to Test
+## 🧪 How to Test
 
 ### 로컬 테스트 네트워크 실행
 
