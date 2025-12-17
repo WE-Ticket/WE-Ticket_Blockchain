@@ -1,5 +1,15 @@
 # WE-Ticket Blockchain
 
+# 🎫 WE-Ticket: 암표 근절을 위한 DID 및 NFT 기반 티켓팅 시스템
+
+> DID로 개인정보 노출 없이 1초 간편 입장을!
+> 
+> NFT로 티켓 소유권의 신뢰성을!
+> 
+> 공연 티켓 전 과정(예매, 발급, 소유권 관리, 양도, 입장)을 DID와 NFT로 재설계한 새로운 티켓팅 시스템, WE-Ticket
+> 
+<img width="1000" alt="Image" src="https://github.com/user-attachments/assets/6dd2ba3e-2951-4a49-a904-de103b01237d" />
+
 ## 목차
 
 - [프로젝트 개요](#프로젝트-개요)
